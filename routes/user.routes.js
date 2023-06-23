@@ -6,7 +6,7 @@ const UserModel = require("../model/user.model")
 const userRouter=express.Router()
 
 userRouter.post("/register",async(req,res)=>{
- 
+    const { name, email, password } = req.body;
     const existUser = await UserModel.findOne({ email: email });
     if (existUser) {
       return res.status(400).send("User Has alredy Exist");
@@ -27,7 +27,7 @@ userRouter.post("/register",async(req,res)=>{
 userRouter.post("/login",async(req,res)=>{
     const { email, password } = req.body;
     try {
-      const user = await userModel.findOne({ email });
+      const user = await UserModel.findOne({ email });
       if (user) {
         bcrypt.compare(password, user.password, (err, result) => {
           if (result) {
